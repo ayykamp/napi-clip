@@ -1,0 +1,6 @@
+# npm stuff
+node_modules
+package-lock.json
+
+# cpp stuff
+build
