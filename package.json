@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "cmake-js compile"
+    "install": "cmake-js compile",
+    "build": "cmake-js compile",
+    "build:dev": "cmake-js compile --debug"
   },
   "author": "AyyKamp",
   "license": "ISC",

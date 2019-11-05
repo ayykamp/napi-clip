@@ -1,4 +1,5 @@
 #include <napi.h>
+#include <iostream>
 
 #include "../cpp_modules/clip/clip.h"
 
@@ -38,7 +39,7 @@ void set_text(const CallbackInfo& args) {
     return;
   }
 	
-	std::string value = args[0].ToString().Utf8Value();
+	std::string value = args[0].ToString();
 	clip::set_text(value);
 }
 
@@ -84,7 +85,7 @@ Object get_image(const CallbackInfo& args) {
 	img_obj.Set(String::New(env, "spec"), spec_obj);
 
 	char *data = img.data();
-	Buffer<char> img_buffer = Buffer<char>::New(env, data, spec.width * spec.height);
+	Buffer<char> img_buffer = Buffer<char>::Copy(env, data, spec.width * spec.height);
 
 	img_obj.Set(String::New(env, "data"), img_buffer);
 
