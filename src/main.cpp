@@ -110,7 +110,7 @@ void set_image(const CallbackInfo& args) {
 	spec.bytes_per_row = spec_obj.Has("bytesPerRow") ?
 		 spec_obj.Get("bytesPerRow").ToNumber().Uint32Value(): spec.width * 4;
 	spec.red_mask = spec_obj.Has("redMask") ?
-		 spec_obj.Get("redMask").ToNumber().Uint32Value()	: 0xff;
+		 spec_obj.Get("redMask").ToNumber().Uint32Value()		: 0xff;
 	spec.green_mask = spec_obj.Has("greenMask") ?
 		 spec_obj.Get("greenMask").ToNumber().Uint32Value()	: 0xff00;
 	spec.blue_mask = spec_obj.Has("blueMask") ?
