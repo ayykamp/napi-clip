@@ -6,14 +6,15 @@
   "scripts": {
     "install": "cmake-js compile",
     "build": "cmake-js compile",
-    "build:dev": "cmake-js compile --debug"
+    "build:dev": "cmake-js compile --debug",
+    "test": "jest"
   },
   "author": "AyyKamp",
   "license": "ISC",
   "dependencies": {
     "bindings": "^1.5.0",
     "cmake-js": "^6.0.0",
-    "nan": "^2.14.0",
-    "node-addon-api": "^1.7.1"
+    "node-addon-api": "^1.7.1",
+    "node-libpng": "^0.2.7"
   }
 }

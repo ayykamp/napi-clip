@@ -8,6 +8,7 @@ set(CLIP_TESTS OFF CACHE BOOL "Compile clip tests")
 
 # lets find a better way :)))
 set (CMAKE_CXX_FLAGS "-fPIC")
+add_compile_definitions(NAPI_CPP_EXCEPTIONS)
 
 # Essential include files to build a node addon,
 # you should add this line in every CMake.js based project.

@@ -1,27 +1,16 @@
-#include <napi.h>
-#include <iostream>
-
 #include "../cpp_modules/clip/clip.h"
 
-/* using Napi::FunctionCallbackInfo;
-using Napi::env;
-using Napi::Local;
-using Napi::NewStringType;
-using Napi::Buffer;
-using Napi::Number;
-using Napi::String;
-using Napi::Boolean;
-using Napi::Object;
-using Napi::Value;
-using Napi::Exception; */
+#include <napi.h>
+using namespace Napi;
 
-using Napi::CallbackInfo;
-using Napi::String;
-using Napi::Error;
-using Napi::Boolean;
-using Napi::Object;
-using Napi::Buffer;
-using Napi::Number;
+Boolean clear(const CallbackInfo& args) {
+	Napi::Env env = args.Env();
+
+	if (clip::clear())
+		return Boolean::New(env, true);
+	else
+		return Boolean::New(env, false);
+}
 
 String get_text(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
@@ -85,9 +74,12 @@ Object get_image(const CallbackInfo& args) {
 	img_obj.Set(String::New(env, "spec"), spec_obj);
 
 	char *data = img.data();
+	
 	Buffer<char> img_buffer = Buffer<char>::Copy(env, data, spec.width * spec.height);
-
-	img_obj.Set(String::New(env, "data"), img_buffer);
+	/* ArrayBuffer temp = ArrayBuffer::New(env, data, 4);
+	Uint32Array temp1 = Uint32Array::New(env, 4, temp, 0);
+	Buffer<char> img_buffer = temp1.Data(); */
+	// img_obj.Set(String::New(env, "data"), img_buffer);
 
 	return img_obj;
 }
@@ -118,21 +110,21 @@ void set_image(const CallbackInfo& args) {
 	spec.bytes_per_row = spec_obj.Has("bytesPerRow") ?
 		 spec_obj.Get("bytesPerRow").ToNumber().Uint32Value(): spec.width * 4;
 	spec.red_mask = spec_obj.Has("redMask") ?
-		 spec_obj.Get("redMask").ToNumber().Uint32Value()	: 0xff000000;
+		 spec_obj.Get("redMask").ToNumber().Uint32Value()	: 0xff;
 	spec.green_mask = spec_obj.Has("greenMask") ?
-		 spec_obj.Get("greenMask").ToNumber().Uint32Value()	: 0xff0000;
+		 spec_obj.Get("greenMask").ToNumber().Uint32Value()	: 0xff00;
 	spec.blue_mask = spec_obj.Has("blueMask") ?
-		 spec_obj.Get("blueMask").ToNumber().Uint32Value() 	: 0xff00;
+		 spec_obj.Get("blueMask").ToNumber().Uint32Value() 	: 0xff0000;
 	spec.alpha_mask = spec_obj.Has("alphaMask") ?
-		 spec_obj.Get("alphaMask").ToNumber().Uint32Value() : 0xff;
+		 spec_obj.Get("alphaMask").ToNumber().Uint32Value() : 0xff000000;
 	spec.red_shift = spec_obj.Has("redShift") ?
-		 spec_obj.Get("redShift").ToNumber().Uint32Value() 	: 24;
+		 spec_obj.Get("redShift").ToNumber().Uint32Value() 	: 0;
 	spec.green_shift = spec_obj.Has("greenShift") ?
-		 spec_obj.Get("greenShift").ToNumber().Uint32Value(): 16;
+		 spec_obj.Get("greenShift").ToNumber().Uint32Value(): 8;
 	spec.blue_shift = spec_obj.Has("blueShift") ?
-		 spec_obj.Get("blueShift").ToNumber().Uint32Value()	: 8;
+		 spec_obj.Get("blueShift").ToNumber().Uint32Value()	: 16;
 	spec.alpha_shift = spec_obj.Has("alphaShift") ?
-		 spec_obj.Get("alphaShift").ToNumber().Uint32Value(): 0;
+		 spec_obj.Get("alphaShift").ToNumber().Uint32Value(): 24;
 	
 	clip::image img(img_data, spec);
 	clip::set_image(img);
@@ -144,6 +136,7 @@ Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
 	exports.Set("hasImage", Napi::Function::New(env, has_image));
 	exports.Set("getImage", Napi::Function::New(env, get_image));
 	exports.Set("setImage", Napi::Function::New(env, set_image));
+	exports.Set("clear", Napi::Function::New(env, clear));
 	return exports;
 }
 	
