@@ -19,10 +19,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
-    - run: npm install -g jest
     - run: npm install
-    - run: npm test
-  
+    - uses: stefanoeb/jest-action@1.0.0
+
   publish:
     needs: build
 
