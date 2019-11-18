@@ -24,7 +24,11 @@ jobs:
     - run: npm test
   
   publish:
+<<<<<<< HEAD
     need: build
+=======
+    needs: build
+>>>>>>> 8813fd4ebb16831066f0ce59cf903459bee69a8e
 
     runs-on: ubuntu-latest
 
@@ -33,7 +37,7 @@ jobs:
       with:
         submodules: true
     
-        - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
         node-version: 10.x
         registry-url: 'https://npm.pkg.github.com'
