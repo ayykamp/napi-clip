@@ -35,11 +35,11 @@ jobs:
       with:
         node-version: 10.x
         registry-url: 'https://npm.pkg.github.com'
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
     - run: npm install
     - run: npm publish
-    
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x
@@ -48,4 +48,3 @@ jobs:
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    - run: npm publish
