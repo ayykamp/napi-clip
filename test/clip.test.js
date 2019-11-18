@@ -1,4 +1,4 @@
-const clip = require("bindings")("node_clip_wrapper")
+const clip = require("bindings")("napi_clip")
 
 const TEST_STRING = "Test!@♂\n"
 const TEST_IMG_DATA = 

@@ -4,3 +4,6 @@ package-lock.json
 
 # cpp stuff
 build
+
+#edit stuff
+.vscode

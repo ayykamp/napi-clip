@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Name of the project (will be the name of the plugin)
-project (node_clip_wrapper)
+project (napi_clip)
 
 set(CLIP_EXAMPLES OFF CACHE BOOL "Compile clip examples")
 set(CLIP_TESTS OFF CACHE BOOL "Compile clip tests")
