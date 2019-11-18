@@ -25,6 +25,7 @@ jobs:
     #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - uses: actions/setup-node@v1
       with:
+        node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
     - run: npm install
     - run: npm publish
