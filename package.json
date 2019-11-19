@@ -9,11 +9,9 @@
   "main": "index.js",
   "scripts": {
     "install": "./node_modules/.bin/prebuild-install -r napi || \"./node_modules/.bin/cmake-js\" rebuild",
-    "build": "cmake-js compile",
-    "build:dev": "cmake-js compile --debug",
     "test": "jest",
     "//": "Only run prebuild from GH actions",
-    "prebuild": "./node_modules/.bin/prebuild --runtime napi --backend cmake-js -u "
+    "prebuild": "./node_modules/.bin/prebuild --all --runtime napi --backend cmake-js -u "
   },
   "author": "AyyKamp",
   "license": "ISC",
