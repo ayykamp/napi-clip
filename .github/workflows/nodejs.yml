@@ -31,17 +31,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          submodules: true
+          submodules: recursive
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - uses: MeilCli/npm-update-check-action@v2
-        id: outdated
-        with:
-          depth: 1
-      - run: echo ${{ steps.outdated.outputs.npm_update_text }}
       - name: Publish to NPM
         if: steps.outdated.outputs.has_npm_update != 'false'
         run: npm publish
