@@ -13,13 +13,13 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
-    - name: Build  
       uses: actions/checkout@v1
       with:
         submodules: true
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: Build  
       run: npm install --build-from-source
     - name: Upload binaries to GitHub Releases
       run: npm run prebuild ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}

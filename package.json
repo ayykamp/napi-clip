@@ -12,6 +12,7 @@
     "build": "cmake-js compile",
     "build:dev": "cmake-js compile --debug",
     "test": "jest",
+    "//": "Only run prebuild from GH actions",
     "prebuild": "./node_modules/.bin/prebuild --all --backend cmake-js --runtime napi -u "
   },
   "author": "AyyKamp",
