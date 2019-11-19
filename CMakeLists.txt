@@ -1,10 +1,20 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 
 # Name of the project (will be the name of the plugin)
 project (napi_clip)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+  # As we compile with CMAKE_OSX_DEPLOYMENT_TARGET=10.7, we have to
+  # explicitly say that we want to use libc++ instead of the GNU libstdc++
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
+
+
 set(CLIP_EXAMPLES OFF CACHE BOOL "Compile clip examples")
 set(CLIP_TESTS OFF CACHE BOOL "Compile clip tests")
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # lets find a better way :)))
 set (CMAKE_CXX_FLAGS "-fPIC")
