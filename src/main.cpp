@@ -1,4 +1,5 @@
 #include "../cpp_modules/clip/clip.h"
+#include <iostream>;
 
 #include <napi.h>
 using namespace Napi;
@@ -6,10 +7,7 @@ using namespace Napi;
 Boolean clear(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
 
-	if (clip::clear())
-		return Boolean::New(env, true);
-	else
-		return Boolean::New(env, false);
+	return Boolean::New(env, clip::clear());
 }
 
 String get_text(const CallbackInfo& args) {
@@ -20,16 +18,16 @@ String get_text(const CallbackInfo& args) {
   return String::New(env, value);
 }
 
-void set_text(const CallbackInfo& args) {
+Boolean set_text(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
 
 	if (args.Length() < 1 || !args[0].IsString()) {
     Error::New(env, "Invalid argument provided. Must be of type string.").ThrowAsJavaScriptException();
-    return;
+    return Boolean::New(env, false);
   }
 	
 	std::string value = args[0].ToString();
-	clip::set_text(value);
+	return Boolean::New(env, clip::set_text(value));
 }
 
 Boolean has_image(const CallbackInfo& args) {
@@ -39,6 +37,22 @@ Boolean has_image(const CallbackInfo& args) {
 	
 	return Boolean::New(env, has_image_value);
 }
+
+Boolean has_text(const CallbackInfo& args) {
+	Napi::Env env = args.Env();
+
+	bool has_text_value = clip::has(clip::text_format());
+	
+	return Boolean::New(env, has_text_value);
+}
+// https://github.com/dacap/clip/issues/28
+/* Boolean is_empty(const CallbackInfo& args) {
+	Napi::Env env = args.Env();
+
+	bool has_empty_format = clip::has(clip::empty_format());
+	
+	return Boolean::New(env, has_empty_format);
+} */
 
 Object get_image(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
@@ -62,6 +76,8 @@ Object get_image(const CallbackInfo& args) {
 	// this may be imporved, not very DRY
 	spec_obj.Set(String::New(env, "width"), Number::New(env, spec.width));
 	spec_obj.Set(String::New(env, "height"), Number::New(env, spec.height));
+	spec_obj.Set(String::New(env, "bitsPerPixel"), Number::New(env, spec.bits_per_pixel));
+	spec_obj.Set(String::New(env, "bytesPerRow"), Number::New(env, spec.bytes_per_row));
 	spec_obj.Set(String::New(env, "redMask"), Number::New(env, spec.red_mask));
 	spec_obj.Set(String::New(env, "greenMask"), Number::New(env, spec.green_mask));
 	spec_obj.Set(String::New(env, "blueMask"), Number::New(env, spec.blue_mask));
@@ -73,13 +89,12 @@ Object get_image(const CallbackInfo& args) {
 
 	img_obj.Set(String::New(env, "spec"), spec_obj);
 
-	char *data = img.data();
+	const size_t length = spec.width * spec.height; 
 	
-	Buffer<char> img_buffer = Buffer<char>::Copy(env, data, spec.width * spec.height);
-	/* ArrayBuffer temp = ArrayBuffer::New(env, data, 4);
-	Uint32Array temp1 = Uint32Array::New(env, 4, temp, 0);
-	Buffer<char> img_buffer = temp1.Data(); */
-	// img_obj.Set(String::New(env, "data"), img_buffer);
+	char *data = img.data();
+	Buffer<char> img_buffer = Buffer<char>::Copy(env, data, length * (spec.bits_per_pixel / 8));
+
+	img_obj.Set(String::New(env, "data"), img_buffer);
 
 	return img_obj;
 }
@@ -133,7 +148,9 @@ void set_image(const CallbackInfo& args) {
 Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
 	exports.Set("getText", Napi::Function::New(env, get_text));
 	exports.Set("setText", Napi::Function::New(env, set_text));
+	exports.Set("hasText", Napi::Function::New(env, has_text));
 	exports.Set("hasImage", Napi::Function::New(env, has_image));
+	// exports.Set("isEmpty", Napi::Function::New(env, is_empty));
 	exports.Set("getImage", Napi::Function::New(env, get_image));
 	exports.Set("setImage", Napi::Function::New(env, set_image));
 	exports.Set("clear", Napi::Function::New(env, clear));

@@ -25,6 +25,10 @@ afterEach(clip.clear);
 
 test('Getting and setting clipboard text data', () => {
   clip.setText(TEST_STRING)
+
+  expect(clip.isEmpty()).toBe(false)
+  expect(clip.hasText()).toBe(true)
+
   expect(clip.getText()).toBe(TEST_STRING)
 })
 
@@ -36,6 +40,19 @@ test('Getting and setting clipboard image data', () => {
     spec: TEST_IMG_SPEC
   })
 
+  expect(clip.isEmpty()).toBe(false)
+  expect(clip.hasImage()).toBe(true)
+
   const img = clip.getImage()
-  expect(img.data).toEqual
+  expect(img.spec).toEqual(clip.getImage().spec)
+  expect(img.data).toEqual(clip.getImage().data)
 })
+
+// https://github.com/dacap/clip/issues/28
+/* test('Clearing and empty format', () => {
+  clip.clear()
+
+  expect(clip.hasText()).toBe(false)
+  expect(clip.hasImage()).toBe(false)
+  expect(clip.isEmpty()).toBe(true)
+}) */
