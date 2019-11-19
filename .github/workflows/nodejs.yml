@@ -20,7 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
     - run: npm install
-    - uses: rkusa/jest-action@master
+    - uses: rkusa/jest-action@v1
       with:
         secrets: ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
