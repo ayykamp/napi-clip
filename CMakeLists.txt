@@ -18,7 +18,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # lets find a better way :)))
 set (CMAKE_CXX_FLAGS "-fPIC")
-add_compile_definitions(NAPI_VERSION=${napi_build_version})
 add_compile_definitions(NAPI_CPP_EXCEPTIONS)
 
 # Essential include files to build a node addon,
@@ -42,3 +41,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_link_libraries(${PROJECT_NAME} clip)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/node_modules/node-addon-api")
+add_compile_definitions(NAPI_VERSION=${napi_build_version})
