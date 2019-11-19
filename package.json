@@ -11,7 +11,7 @@
     "install": "./node_modules/.bin/prebuild-install -r napi || \"./node_modules/.bin/cmake-js\" rebuild",
     "test": "jest",
     "//": "Only run prebuild from GH actions",
-    "prebuild": "./node_modules/.bin/prebuild --all --runtime napi --backend cmake-js -u "
+    "prebuild": "./node_modules/.bin/prebuild --all --runtime napi --backend cmake-js"
   },
   "author": "AyyKamp",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "prebuild-install": "^5.3.3"
   },
   "binary": {
-    "napi_versions": [3]
+    "napi_versions": [3, 4 , 5]
   },
   "devDependencies": {
     "jest": "^24.9.0",
