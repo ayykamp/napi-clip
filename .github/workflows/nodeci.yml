@@ -18,8 +18,10 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: Build  
+    - name: Build
       run: npm install --build-from-source
+    - name: Test
+      run: ./node_modules/.bin/jest
     - name: Upload binaries to GitHub Releases
       run: npm run prebuild ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
