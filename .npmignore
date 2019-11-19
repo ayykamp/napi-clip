@@ -5,3 +5,5 @@ prebuilds
 .gitignore
 .gitmodules
 README.md
+cpp_modules/clip
+.vscode
