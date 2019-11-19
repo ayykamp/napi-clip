@@ -1,4 +1,4 @@
-name: Build and deploy
+name: NPM CI
 
 on: [push]
 
@@ -13,13 +13,18 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Build  
+      uses: actions/checkout@v1
       with:
         submodules: true
-    - uses: actions/setup-node@v1
+      uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: npm install
+      run: npm install --build-from-source
+    - name: Upload binaries to GitHub Releases
+      run: ./node_modules/.bin/node-pre-gyp package
+      run: ./node_modules/.bin/node-pre-gyp-github publish --release
+    
 
   publish:
     needs: build
@@ -30,20 +35,13 @@ jobs:
       - uses: actions/checkout@v1
         with:
           submodules: true
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: 'https://npm.pkg.github.com'
-      - run: npm install
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
-      - uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
-      - run: npm publish
+      - name: Publish to NPM 
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_NPM_TOKEN }}
       

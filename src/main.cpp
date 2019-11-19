@@ -1,5 +1,5 @@
 #include "../cpp_modules/clip/clip.h"
-#include <iostream>;
+#include <iostream>
 
 #include <napi.h>
 using namespace Napi;
