@@ -37,7 +37,13 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: Publish to NPM 
+      - uses: MeilCli/npm-update-check-action@v2
+        id: outdated
+        with:
+          depth: 1
+      - run: echo ${{ steps.outdated.outputs.npm_update_text }}
+      - name: Publish to NPM
+        if: steps.outdated.outputs.has_npm_update != 'false'
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_NPM_TOKEN }}
