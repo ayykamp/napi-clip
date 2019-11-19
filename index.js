@@ -1,1 +1,1 @@
-module.exports = require('bindings')('node_clip_wrapper')
+module.exports = require('bindings')('napi_clip')

@@ -157,4 +157,4 @@ Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
 	return exports;
 }
 	
-NODE_API_MODULE(node_clip_wrapper, Initialize)
+NODE_API_MODULE(napi_clip, Initialize)
