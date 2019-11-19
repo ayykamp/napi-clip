@@ -19,12 +19,6 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: sudo apt-get install xvfb
-      if: matrix.os == 'ubuntu-latest'
-    - run: sudo apt-get install libx11-dev
-      if: matrix.os == 'ubuntu-latest'
-    - run: sudo apt-get install libpng-dev
-      if: matrix.os == 'ubuntu-latest'
     - name: Build
       run: npm install --build-from-source
     - name: Test
