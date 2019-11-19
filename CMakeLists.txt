@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # lets find a better way :)))
 set (CMAKE_CXX_FLAGS "-fPIC")
-add_compile_definitions(NAPI_VERSION=3)
+add_compile_definitions(NAPI_VERSION=${napi_build_version})
 add_compile_definitions(NAPI_CPP_EXCEPTIONS)
 
 # Essential include files to build a node addon,
