@@ -20,7 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
     - run: npm install
-    - uses: stefanoeb/jest-action@v1
+    - uses: stefanoeb/jest-action@1.0.0
       with:
         args: "--ci"
 
