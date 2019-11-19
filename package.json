@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "install": "./node_modules/.bin/prebuild-install -r napi || "./node_modules/.bin/cmake-js" rebuild",
+    "install": "./node_modules/.bin/prebuild-install -r napi || \"./node_modules/.bin/cmake-js\" rebuild",
     "build": "cmake-js compile",
     "build:dev": "cmake-js compile --debug",
     "test": "jest",
