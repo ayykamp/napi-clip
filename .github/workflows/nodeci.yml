@@ -32,7 +32,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
     - name: Test
       run: ./node_modules/.bin/jest
-      if: matrix.os = 'ubuntu-latest'
+      if: matrix.os != 'ubuntu-latest'
     - name: Upload binaries to GitHub Releases
       run: npm run prebuild -t ${{ matrix.napi }} -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
