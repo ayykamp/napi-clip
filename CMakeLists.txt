@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 3.2)
 project (napi_clip)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-# As we compile with CMAKE_OSX_DEPLOYMENT_TARGET=10.7, we have to
-# explicitly say that we want to use libc++ instead of the GNU libstdc++
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+  # As we compile with CMAKE_OSX_DEPLOYMENT_TARGET=10.7, we have to
+  # explicitly say that we want to use libc++ instead of the GNU libstdc++
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()
 
 
@@ -16,9 +16,7 @@ set(CLIP_TESTS OFF CACHE BOOL "Compile clip tests")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# lets find a better way :)))
-set (CMAKE_CXX_FLAGS "-fPIC")
-add_definitions(NAPI_VERSION=${napi_build_version})
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_compile_definitions(NAPI_CPP_EXCEPTIONS)
 
 # Essential include files to build a node addon,
