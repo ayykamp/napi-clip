@@ -22,9 +22,7 @@ jobs:
         node-version: '12.x'
       run: npm install --build-from-source
     - name: Upload binaries to GitHub Releases
-      run: ./node_modules/.bin/node-pre-gyp package
-      run: ./node_modules/.bin/node-pre-gyp-github publish --release
-    
+      run: npm run prebuild ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
   publish:
     needs: build

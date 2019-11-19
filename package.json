@@ -12,7 +12,7 @@
     "build": "cmake-js compile",
     "build:dev": "cmake-js compile --debug",
     "test": "jest",
-    "prebuild": "./node_modules/.bin/prebuild --all --backend cmake-js -u "
+    "prebuild": "./node_modules/.bin/prebuild --all --backend cmake-js --runtime napi -u "
   },
   "author": "AyyKamp",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "node-addon-api": "^1.7.1"
   },
   "binary": {
-    "napi_versions": [3]
+    "napi_versions": [3, 4 , 5]
   },
   "devDependencies": {
     "jest": "^24.9.0",
