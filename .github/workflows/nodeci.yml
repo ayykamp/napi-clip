@@ -19,6 +19,8 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - run: sudo apt-get install xvfb
+      if: matrix.os == 'ubuntu-latest'
     - run: sudo apt-get install libx11-dev
       if: matrix.os == 'ubuntu-latest'
     - run: sudo apt-get install libpng-dev
@@ -26,7 +28,11 @@ jobs:
     - name: Build
       run: npm install --build-from-source
     - name: Test
-      run: ./node_modules/.bin/jest
+      run: xvfb-run ./node_modules/.bin/jest
+      if: matrix.os == 'ubuntu-latest'
+    - name: Test
+      run: xvfb-run ./node_modules/.bin/jest
+      if: matrix.os != 'ubuntu-latest'
     - name: Upload binaries to GitHub Releases
       run: npm run prebuild -t ${{ matrix.napi }} -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 

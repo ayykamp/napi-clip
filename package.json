@@ -22,10 +22,15 @@
     "prebuild-install": "^5.3.3"
   },
   "binary": {
-    "napi_versions": [3, 4 , 5]
+    "napi_versions": [
+      3,
+      4,
+      5
+    ]
   },
   "devDependencies": {
     "jest": "^24.9.0",
-    "prebuild": "^9.1.1"
+    "prebuild": "^9.1.1",
+    "xvfb-maybe": "^0.2.1"
   }
 }
