@@ -57,7 +57,7 @@ jobs:
       run: ./node_modules/.bin/jest
       if: matrix.os != 'ubuntu-latest'
     - name: Upload binaries to GitHub Releases
-      if: ${{ steps.new_version.outputs.version_stayed }}
+      if: ${{ steps.new_version.outputs.version_stayed_same }}
       run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
     - run: echo "${{ matrix.os != 'ubuntu-latest' }}"
 
