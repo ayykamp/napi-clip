@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        napi: [3, 4, 5]
 
     steps:
     - uses: actions/checkout@v1
@@ -28,7 +27,7 @@ jobs:
       run: ./node_modules/.bin/jest
       if: matrix.os != 'ubuntu-latest'
     - name: Upload binaries to GitHub Releases
-      run: npm run prebuild -t ${{ matrix.napi }} -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+      run: npm run prebuild -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
   publish:
     needs: build
