@@ -12,7 +12,7 @@ jobs:
         submodules: recursive
     - run: new_version=$(git show $(git log --pretty=format:'%H' -2 | sed '1q;d'):./package.json | grep "\"version\"")
     - run: old_version=$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
-    - run: equals=$([ "$new_version" == "$old_version" ] && echo "true" || echo "false")
+    - run: if [ "$new_version" == "$old_version" ]; then equals="true"; else equals="false"; fi
     - run: echo "$equals"
     - name: New Version?
       run: echo "::set-output name=equals::${equals}"
