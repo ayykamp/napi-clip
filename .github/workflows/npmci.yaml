@@ -18,10 +18,11 @@ jobs:
     - name: Has the version stayed the same?
       run: echo "::set-output name=version_stayed::${equals}"
       id: new_version
-    - name: Pass down version data
-      uses: actions/upload-artifact@v1
-      : steps.new_version.outputs.version_stayed
-      run: echo "success"
+    #- name: Pass down version data
+    #  uses: actions/upload-artifact@v1
+    #  with:
+    #    steps.new_version.outputs.version_stayed
+    #  run: echo "success"
   build:
     needs: test-for-new-version
 
