@@ -17,7 +17,7 @@ jobs:
       id: echo
     - name: Dump steps context
       env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
+        STEPS_CONTEXT: ${{ env }}
       run: echo "$STEPS_CONTEXT"
 
   build:
