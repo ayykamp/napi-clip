@@ -39,10 +39,11 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: equals
+    - run: cat equals/equals.txt
     - name: Has the version stayed the same?
       run: |
         echo ::set-env name=equals::$(cat equals/equals.txt)
-        echo "::set-output name=version_stayed_same::${$equals}"
+        echo ::set-output name=version_stayed_same::$equals
       id: new_version
 
     - uses: actions/setup-node@v1
