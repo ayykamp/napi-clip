@@ -18,7 +18,7 @@ jobs:
     - name: Dump steps context
       env:
         STEPS_CONTEXT: haha
-      run: echo ${{ env }}
+      run: echo ${{ toJson(env) }}
 
   build:
 
