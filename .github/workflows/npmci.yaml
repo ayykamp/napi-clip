@@ -15,11 +15,7 @@ jobs:
         echo ::set-env name=new_version::$(git show $(git log --pretty=format:'%H' -2 | sed '1q;d'):./package.json | grep "\"version\"")
         echo ::set-env name=old_version::$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
         echo ::set-env name=equals::$(if [ "$new_version" == "$old_version" ]; then echo "true"; else echo "false"; fi)
-<<<<<<< HEAD
-        #"$equals" > "equals.txt"
-=======
         echo $equals > equals.txt
->>>>>>> 13bf036682e55f70eeadff93ef2342a67b52cbec
     - name: Pass $equals to other jobs
       uses: actions/upload-artifact@v1
       with:
