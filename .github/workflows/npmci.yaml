@@ -10,13 +10,11 @@ jobs:
     - uses: actions/checkout@v1
       with:
         submodules: recursive
-    - run: |
-      echo ::set-env name=new_version::$(git show $(git log --pretty=format:'%H' -2 | sed '1q;d'):./package.json | grep "\"version\"")
-      echo "$new_version"
-      echo ::set-env name=old_version::$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
-      echo "$old_version"
-      echo ::set-env name=equals::$(if [ "$new_version" == "$old_version" ]; then echo "true"; else echo "false"; fi)
-      echo "$equals"
+    - name: Check Version
+      run: |
+        echo ::set-env name=new_version::$(git show $(git log --pretty=format:'%H' -2 | sed '1q;d'):./package.json | grep "\"version\"")
+        echo ::set-env name=old_version::$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
+        echo ::set-env name=equals::$(if [ "$new_version" == "$old_version" ]; then echo "true"; else echo "false"; fi)
     - name: Has the version stayed the same?
       run: echo "::set-output name=version_stayed::${equals}"
       id: new_version
