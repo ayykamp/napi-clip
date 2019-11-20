@@ -1,0 +1,51 @@
+name: NPM CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Build
+      run: npm install --build-from-source
+    - name: Test
+      run: xvfb-run ./node_modules/.bin/jest
+      if: matrix.os == 'ubuntu-latest'
+    - name: Test
+      run: ./node_modules/.bin/jest
+      if: matrix.os != 'ubuntu-latest'
+    - name: Upload binaries to GitHub Releases
+      run: npm run prebuild -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+
+  publish:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: recursive
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish to NPM
+        if: 'false'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_NPM_TOKEN }}
+      
