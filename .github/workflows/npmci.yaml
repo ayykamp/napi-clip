@@ -14,6 +14,7 @@ jobs:
     - run: prelast=$(git log --pretty=format:'%H' -2 | sed '2q;d')
     - name: echo
       run: echo "xd"
+      id: echo
     - name: Dump steps context
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
