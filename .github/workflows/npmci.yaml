@@ -36,10 +36,9 @@ jobs:
       with:
         submodules: recursive
 
-    - name: 
-        uses: actions/download-artifact@v1
-        with:
-          name: equals
+    - uses: actions/download-artifact@v1
+      with:
+        name: equals
     - name: Has the version stayed the same?
       run: |
         echo ::set-env name=equals::$(cat equals.txt)
