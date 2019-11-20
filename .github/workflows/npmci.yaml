@@ -27,7 +27,7 @@ jobs:
       run: ./node_modules/.bin/jest
       if: matrix.os != 'ubuntu-latest'
     - name: Upload binaries to GitHub Releases
-      run: npm run prebuild -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+      run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
 
   publish:
     needs: build
