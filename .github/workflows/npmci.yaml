@@ -13,7 +13,7 @@ jobs:
     - run: last=$(git log --pretty=format:'%H' -2 | sed '1q;d')
     - run: prelast=$(git log --pretty=format:'%H' -2 | sed '2q;d')
     - name: echo
-      run: echo "xd"
+      run: echo "::set-output name=thisout::somejson"
       id: echo
     - name: Dump GitHub context
       env:
