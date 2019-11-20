@@ -3,6 +3,21 @@ name: NPM CI
 on: [push]
 
 jobs:
+  test-for-new-version:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - run: last=$(git log --pretty=format:'%H' -2 | sed '1q;d')
+    - run: prelast=$(git log --pretty=format:'%H' -2 | sed '2q;d')
+    - run: echo "hahahahahhahahahahaha"
+      if: ${{ jobs.test-for-new-version.last == github.sha}}
+    - run: echo "$last"
+    - run: echo ${{ github.sha }}
+
+
   build:
 
     runs-on: ${{ matrix.os }}
