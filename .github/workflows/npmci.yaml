@@ -12,10 +12,9 @@ jobs:
         submodules: recursive
     - run: last=$(git log --pretty=format:'%H' -2 | sed '1q;d')
     - run: prelast=$(git log --pretty=format:'%H' -2 | sed '2q;d')
-    - run: echo "hahahahahhahahahahaha"
-      if: ${{ jobs.test-for-new-version.last == github.sha}}
-    - run: echo "$last"
-    - run: echo ${{ github.sha }}
+    - name: Dump steps context
+      env:
+        STEPS_CONTEXT: ${{ toJson(steps) }}
 
 
   build:
