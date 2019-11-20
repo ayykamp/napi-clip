@@ -14,7 +14,7 @@ jobs:
     - run: old_version=$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
     - run: equals=$([ "$new_version" == "$old_version" ] && echo "true" || echo "false")
     - name: New Version?
-      run: echo "::set-output name=equals::$equals"
+      run: echo "::set-output name=equals::${equals}"
       id: new_version
     - name: Dump GitHub context
       env:
