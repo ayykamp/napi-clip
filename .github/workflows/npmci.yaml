@@ -10,11 +10,12 @@ jobs:
     - uses: actions/checkout@v1
       with:
         submodules: recursive
-    - run: last=$(git log --pretty=format:'%H' -2 | sed '1q;d')
-    - run: prelast=$(git log --pretty=format:'%H' -2 | sed '2q;d')
-    - name: echo
-      run: echo "::set-output name=thisout::somejson"
-      id: echo
+    - run: new_version=$(git show $(git log --pretty=format:'%H' -2 | sed '1q;d'):./package.json | grep "\"version\"")
+    - run: old_version=$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
+    - run: equals=$([ "$new_version" == "$old_version" ] && echo "true" || echo "false")
+    - name: New Version?
+      run: echo "::set-output name=equals::'$equals'"
+      id: new_version
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
