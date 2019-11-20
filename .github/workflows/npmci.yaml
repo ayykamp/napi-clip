@@ -17,10 +17,10 @@ jobs:
         echo ::set-env name=equals::$(if [ "$new_version" == "$old_version" ]; then echo "true"; else echo "false"; fi)
         "$equals" > "equals.txt"
     - name: Pass $equals to other jobs
-        uses: actions/upload-artifact@v1
-        with:
-          name: equals
-          path: equals.txt
+      uses: actions/upload-artifact@v1
+      with:
+        name: equals
+        path: equals.txt
     
   build:
     needs: test-for-new-version
