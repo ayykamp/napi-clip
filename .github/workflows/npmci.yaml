@@ -41,7 +41,7 @@ jobs:
         name: equals
     - name: Has the version stayed the same?
       run: |
-        echo ::set-env name=equals::$(cat equals.txt)
+        echo ::set-env name=equals::$(cat equals/equals.txt)
         echo "::set-output name=version_stayed_same::${equals}"
       id: new_version
 
