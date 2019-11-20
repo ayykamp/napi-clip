@@ -59,6 +59,10 @@ jobs:
     - name: Upload binaries to GitHub Releases
       if: ${{ steps.new_version.outputs.version_stayed_same }}
       run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+    - name: Dump steps context
+      env:
+        STEPS_CONTEXT: ${{ toJson(steps) }}
+      run: echo "$STEPS_CONTEXT"
     - run: echo "${{ matrix.os != 'ubuntu-latest' }}"
 
   publish:
