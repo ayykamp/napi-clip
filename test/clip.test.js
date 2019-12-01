@@ -26,7 +26,6 @@ afterEach(clip.clear);
 test('Getting and setting clipboard text data', () => {
   clip.setText(TEST_STRING)
 
-  // expect(clip.isEmpty()).toBe(false)
   expect(clip.hasText()).toBe(true)
 
   expect(clip.getText()).toBe(TEST_STRING)
@@ -35,12 +34,21 @@ test('Getting and setting clipboard text data', () => {
 test('Getting and setting clipboard image data', () => {
   const imgDataBuffer = Buffer.from(Uint32Array.from(TEST_IMG_DATA).buffer)
   
-  clip.setImage({
+  expect(clip.setImage({
     data: imgDataBuffer,
     spec: TEST_IMG_SPEC
-  })
+  })).toBe(true)
 
-  // expect(clip.isEmpty()).toBe(false)
+  expect(clip.hasImage()).toBe(true)
+
+  expect(clip.setImage({
+    data: imgDataBuffer,
+    spec: {
+      width: 2,
+      height: 3
+    }
+  })).toBe(true)
+
   expect(clip.hasImage()).toBe(true)
 
   const img = clip.getImage()

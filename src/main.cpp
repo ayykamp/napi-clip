@@ -99,12 +99,12 @@ Object get_image(const CallbackInfo& args) {
 	return img_obj;
 }
 
-void set_image(const CallbackInfo& args) {
+Boolean set_image(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
 
 	if (args.Length() < 1 || !args[0].IsObject()) {
 		Error::New(env, "Invalid argument provided. Must be object").ThrowAsJavaScriptException();
-		return;
+		return Boolean::New(env, false);
 	}
 
 	Object obj = args[0].ToObject();
@@ -117,11 +117,11 @@ void set_image(const CallbackInfo& args) {
 
 	// very bad code never hire this guy
 	spec.width = spec_obj.Has("width") ?
-		 spec_obj.Get("width").ToNumber().Uint32Value() : 0;
+		 spec_obj.Get("width").ToNumber().Uint32Value(): 0;
 	spec.height = spec_obj.Has("height") ?
 		 spec_obj.Get("height").ToNumber().Uint32Value(): 0;
 	spec.bits_per_pixel = spec_obj.Has("bitsPerPixel") ?
-		 spec_obj.Get("bitsPerPixel").ToNumber().Uint32Value() : 32;
+		 spec_obj.Get("bitsPerPixel").ToNumber().Uint32Value(): 32;
 	spec.bytes_per_row = spec_obj.Has("bytesPerRow") ?
 		 spec_obj.Get("bytesPerRow").ToNumber().Uint32Value(): spec.width * 4;
 	spec.red_mask = spec_obj.Has("redMask") ?
@@ -142,7 +142,7 @@ void set_image(const CallbackInfo& args) {
 		 spec_obj.Get("alphaShift").ToNumber().Uint32Value(): 24;
 	
 	clip::image img(img_data, spec);
-	clip::set_image(img);
+	return Boolean::New(env, clip::set_image(img));
 }
 
 Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
