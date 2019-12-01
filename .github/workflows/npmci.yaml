@@ -16,6 +16,7 @@ jobs:
         old_version=$(git show $(git log --pretty=format:'%H' -2 | sed '2q;d'):./package.json | grep "\"version\"")
         version_changed=$(if [ "$new_version" != "$old_version" ]; then echo "true"; else echo "false"; fi)
         echo $version_changed > changed.txt
+      shell: bash
     - name: Pass $changed to other jobs
       uses: actions/upload-artifact@v1
       with:
@@ -52,12 +53,15 @@ jobs:
           then xvfb-run ./node_modules/.bin/jest; 
           else ./node_modules/.bin/jest;
         fi
+      shell: bash
+
     - name: Upload binaries to GitHub Releases
       run: |
         version_changed=$(cat version_changed/changed.txt)
          if [ "$version_changed" == "true" ]; 
           then npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}; 
         fi
+      shell: bash
 
   publish:
     needs: build
@@ -84,6 +88,6 @@ jobs:
           if [ "$version_changed" == "true" ]; 
             then npm publish; 
           fi
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_NPM_TOKEN }}
-      
