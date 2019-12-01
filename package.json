@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "install": "./node_modules/.bin/prebuild-install -r napi",
+    "install": "./node_modules/.bin/prebuild-install -r napi || npm run prebuild",
     "test": "jest",
     "//": "Only run prebuild from GH actions",
     "prebuild": "./node_modules/.bin/prebuild --all --runtime napi --backend cmake-js"

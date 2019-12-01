@@ -45,7 +45,7 @@ jobs:
       with:
         node-version: '12.x'
     - name: Build
-      run: npm install --build-from-source
+      run: npm run prebuild
 
     - name: Test
       run: | 
