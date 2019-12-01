@@ -59,9 +59,9 @@ jobs:
     - name: Test on other platforms
       if: runner.os != 'Linux'
       run: ./node_modules/.bin/jest
-    - name: Upload binaries to GitHub Releases
-      if: ${{ steps.new_version.outputs.version_stayed_same }}
-      run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+    #- name: Upload binaries to GitHub Releases
+    #  if: ${{ steps.new_version.outputs.version_stayed_same }}
+    #  run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
       
     - name: Dump steps context
       env:
@@ -79,10 +79,14 @@ jobs:
         with:
           submodules: recursive
 
+      - uses: actions/download-artifact@v1
+        with:
+          name: equals
+      - run: cat equals/equals.txt
       - name: Has the version stayed the same?
         run: |
-          echo ::set-env name=equals::$(cat equals.txt)
-          echo "::set-output name=version_stayed_same::${equals}"
+          echo ::set-env name=equals::$(cat equals/equals.txt)
+          echo ::set-output name=version_stayed_same::$equals
         id: new_version
 
       - name: Setup node
