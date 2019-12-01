@@ -58,8 +58,9 @@ jobs:
     - name: Test on other platforms
       if: runner.os != 'Linux'
       run: ./node_modules/.bin/jest
+    
     - name: Upload binaries to GitHub Releases
-      if: ${{ steps.new_version.outputs.version_stayed_same }}
+      if: job.steps.new_version.outputs.version_stayed_same
       run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
       
     - name: Dump steps context
