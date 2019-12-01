@@ -52,15 +52,17 @@ jobs:
         node-version: '12.x'
     - name: Build
       run: npm install --build-from-source
+
     - name: Test on Linux
       if: runner.os == 'Linux'
       run: xvfb-run ./node_modules/.bin/jest
     - name: Test on other platforms
       if: runner.os != 'Linux'
       run: ./node_modules/.bin/jest
-#    - name: Upload binaries to GitHub Releases
-#      if: ${{ steps.new_version.outputs.version_stayed_same }}
-#      run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+    - name: Upload binaries to GitHub Releases
+      if: ${{ steps.new_version.outputs.version_stayed_same }}
+      run: npm run prebuild --upload--all ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}
+      
     - name: Dump steps context
       env:
         STEPS_CONTEXT: ${{ toJson(steps) }}
