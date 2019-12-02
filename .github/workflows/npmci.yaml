@@ -91,15 +91,3 @@ jobs:
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NAPI_CLIP_NPM_TOKEN }}
-
-  try:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm i @ayykamp/napi-clip
-      - run: ls node_modules
