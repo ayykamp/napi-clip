@@ -102,3 +102,4 @@ jobs:
         with:
           node-version: '12.x'
       - run: npm i @ayykamp/napi-clip
+      - run: ls node_modules
