@@ -1,33 +1,38 @@
 {
-  "name": "@ayykamp/napi-clip",
-  "version": "0.1.4",
-  "description": "Node.js wrapper for the C++ Clip library providing cross plattform support to copy/paste clipboard content",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AyyKamp/napi-clip.git"
-  },
-  "main": "index.js",
-  "scripts": {
-    "install": "prebuild-install -r napi || cmake-js rebuild",
-    "test": "jest",
-    "//": "Only run prebuild from GH actions",
-    "prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js"
-  },
-  "author": "AyyKamp",
-  "license": "ISC",
-  "dependencies": {
-    "bindings": "^1.5.0",
-    "cmake-js": "^6.0.0",
-    "node-addon-api": "^1.7.1",
-    "prebuild-install": "^5.3.3"
-  },
-  "binary": {
-    "napi_versions": [
-      3
-    ]
-  },
-  "devDependencies": {
-    "jest": "^24.9.0",
-    "prebuild": "^9.1.1"
-  }
+	"name": "@ayykamp/napi-clip",
+	"version": "0.1.5",
+	"description": "Node.js wrapper for the C++ Clip library providing cross plattform support to copy/paste clipboard content",
+	"keywords": [
+		"nodejs",
+		"clipboard",
+		"node-addon-api"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AyyKamp/napi-clip.git"
+	},
+	"main": "index.js",
+	"scripts": {
+		"install": "prebuild-install -r napi || cmake-js rebuild",
+		"test": "jest",
+		"//": "Only run prebuild from GH actions",
+		"prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js"
+	},
+	"author": "AyyKamp",
+	"license": "ISC",
+	"dependencies": {
+		"bindings": "^1.5.0",
+		"cmake-js": "^6.0.0",
+		"node-addon-api": "^1.7.1",
+		"prebuild-install": "^5.3.3"
+	},
+	"binary": {
+		"napi_versions": [
+			3
+		]
+	},
+	"devDependencies": {
+		"jest": "^24.9.0",
+		"prebuild": "^9.1.1"
+	}
 }
