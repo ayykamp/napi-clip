@@ -1,6 +1,6 @@
 {
 	"name": "@ayykamp/napi-clip",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Node.js wrapper for the C++ Clip library providing cross plattform support to copy/paste clipboard content",
 	"keywords": [
 		"nodejs",
