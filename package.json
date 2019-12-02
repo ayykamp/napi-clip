@@ -16,7 +16,7 @@
 		"install": "prebuild-install --verbose -r napi || cmake-js rebuild",
 		"test": "jest",
 		"//": "Only run prebuild from GH actions",
-		"prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js"
+		"prebuild": "prebuild --all --runtime electron --verbose --backend cmake-js"
 	},
 	"author": "AyyKamp",
 	"license": "ISC",
