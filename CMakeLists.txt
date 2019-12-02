@@ -41,4 +41,4 @@ target_link_libraries(${PROJECT_NAME} clip)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_SOURCE_DIR}/node_modules/node-addon-api
-  ${CMAKE_SOURCE_DIR}/node_modules/node-addon-api/src)
+  ${CMAKE_SOURCE_DIR}/../../node-addon-api)

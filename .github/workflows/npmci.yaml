@@ -59,7 +59,7 @@ jobs:
       run: |
         version_changed=$(cat version_changed/changed.txt)
          if [ "$version_changed" == "true" ]; 
-          then npm run prebuild --upload ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}; 
+          then npm run prebuild -u ${{ secrets.NAPI_CLIP_GITHUB_TOKEN }}; 
         fi
       shell: bash
 
