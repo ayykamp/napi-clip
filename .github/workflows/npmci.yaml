@@ -55,6 +55,12 @@ jobs:
         fi
       shell: bash
 
+    - name: Pass $changed to other jobs
+      uses: actions/upload-artifact@v1
+      with:
+        name: binary (${{ matrix.os }})
+        path: build/Release/
+
     - name: Upload binaries to GitHub Releases
       run: |
         version_changed=$(cat version_changed/changed.txt)
