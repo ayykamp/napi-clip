@@ -57,10 +57,10 @@ test('Getting and setting clipboard image data', () => {
 })
 
 // https://github.com/dacap/clip/issues/28
-/* test('Clearing and empty format', () => {
+test('Clearing and empty format', () => {
   clip.clear()
 
   expect(clip.hasText()).toBe(false)
   expect(clip.hasImage()).toBe(false)
   expect(clip.isEmpty()).toBe(true)
-}) */
+})
