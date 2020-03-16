@@ -24,7 +24,12 @@ include_directories(${CMAKE_JS_INC})
 add_subdirectory(cpp_modules/clip)
 
 # Declare the location of the source files
-file(GLOB SOURCE_FILES "src/*.cpp")
+
+if (WIN32)
+  file(GLOB SOURCE_FILES "src/*.cpp")
+else (WIN32)
+  file(GLOB SOURCE_FILES "src/main.cpp")
+endif (WIN32)
 
 # This line will tell CMake that we're building a shared library
 # from the above source files

@@ -12,7 +12,6 @@ Boolean clear(const CallbackInfo& args) {
 
 String get_text(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
-
 	std::string value;
 	clip::get_text(value);
   return String::New(env, value);
@@ -21,10 +20,15 @@ String get_text(const CallbackInfo& args) {
 Boolean set_text(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
 
-	if (args.Length() < 1 || !args[0].IsString()) {
-    Error::New(env, "Invalid argument provided. Must be of type string.").ThrowAsJavaScriptException();
-    return Boolean::New(env, false);
-  }
+	if (args.Length() != 1) {
+		Error::New(env, "Expected exactly one argument").ThrowAsJavaScriptException();
+		return Boolean::New(env, false);
+	}
+
+	if (!args[0].IsString()) {
+		Error::New(env, "Expected String as first argument").ThrowAsJavaScriptException();
+		return Boolean::New(env, false);
+	}
 	
 	std::string value = args[0].ToString();
 	return Boolean::New(env, clip::set_text(value));
@@ -45,10 +49,10 @@ Boolean has_text(const CallbackInfo& args) {
 	
 	return Boolean::New(env, has_text_value);
 }
+
 // https://github.com/dacap/clip/issues/28
 /* Boolean is_empty(const CallbackInfo& args) {
 	Napi::Env env = args.Env();
-
 	bool has_empty_format = clip::has(clip::empty_format());
 	
 	return Boolean::New(env, has_empty_format);
@@ -92,28 +96,41 @@ Object get_image(const CallbackInfo& args) {
 	const size_t length = spec.width * spec.height; 
 	
 	char *data = img.data();
-	Buffer<char> img_buffer = Buffer<char>::Copy(env, data, length * (spec.bits_per_pixel / 8));
+	ArrayBuffer array_buffer = ArrayBuffer::New(env, data, length * (spec.bits_per_pixel / 8),
+		[](Env /*env*/, void* finalizeData) {
+      delete[] static_cast<uint32_t*>(finalizeData);
+    });
+	Uint32Array img_array = Uint32Array::New(env, length, array_buffer, 0);
 
-	img_obj.Set(String::New(env, "data"), img_buffer);
+	img_obj.Set(String::New(env, "data"), img_array);
 
 	return img_obj;
 }
 
 Boolean set_image(const CallbackInfo& args) {
+	
 	Napi::Env env = args.Env();
 
-	if (args.Length() < 1 || !args[0].IsObject()) {
-		Error::New(env, "Invalid argument provided. Must be object").ThrowAsJavaScriptException();
+	if (args.Length() != 2) {
+		Error::New(env, "Expected exactly two arguments").ThrowAsJavaScriptException();
 		return Boolean::New(env, false);
 	}
 
-	Object obj = args[0].ToObject();
+	if (!args[0].IsTypedArray()) {
+		Error::New(env, "Expected TypedArray as first argument").ThrowAsJavaScriptException();
+		return Boolean::New(env, false);
+	}
 
-	Napi::Buffer<char> img_buffer = obj.Get("data").As<Buffer<char>>();
-	char* img_data = img_buffer.Data();
+	if (!args[1].IsObject()) {
+		Error::New(env, "Expected Object as second argument").ThrowAsJavaScriptException();
+		return Boolean::New(env, false);
+	}
 
+	Uint32Array img_array = args[0].As<Uint32Array>();
+	uint32_t* img_data = img_array.Data();
+	
+	Object spec_obj = args[1].ToObject();
 	clip::image_spec spec;
-	Object spec_obj = obj.Get("spec").ToObject();
 
 	// very bad code never hire this guy
 	spec.width = spec_obj.Has("width") ?
@@ -145,16 +162,16 @@ Boolean set_image(const CallbackInfo& args) {
 	return Boolean::New(env, clip::set_image(img));
 }
 
-Napi::Object Initialize(Napi::Env env, Napi::Object exports) {
-	exports.Set("getText", Napi::Function::New(env, get_text));
-	exports.Set("setText", Napi::Function::New(env, set_text));
-	exports.Set("hasText", Napi::Function::New(env, has_text));
-	exports.Set("hasImage", Napi::Function::New(env, has_image));
-	// exports.Set("isEmpty", Napi::Function::New(env, is_empty));
-	exports.Set("getImage", Napi::Function::New(env, get_image));
-	exports.Set("setImage", Napi::Function::New(env, set_image));
-	exports.Set("clear", Napi::Function::New(env, clear));
+ static Object Initialize(Env env, Object exports) {
+	exports["getText"] = Function::New(env, get_text);
+	exports["setText"] = Function::New(env, set_text);
+	exports["hasText"] = Function::New(env, has_text);
+	exports["hasImage"] = Function::New(env, has_image);
+	exports["getImage"] = Function::New(env, get_image);
+	exports["setImage"] = Function::New(env, set_image);
+	exports["clear"] = Function::New(env, clear);
+	// exports["isEmpty"] = Function::New(env, isEmpty);
 	return exports;
 }
-	
+
 NODE_API_MODULE(napi_clip, Initialize)

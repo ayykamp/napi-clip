@@ -1,6 +1,6 @@
 {
 	"name": "@ayykamp/napi-clip",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Node.js wrapper for the C++ Clip library providing cross plattform support to copy/paste clipboard content",
 	"keywords": [
 		"nodejs",
@@ -15,7 +15,6 @@
 	"scripts": {
 		"install": "prebuild-install --verbose -r napi || npm run prebuild",
 		"test": "jest",
-		"//": "Only run prebuild from GH actions",
 		"prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js"
 	},
 	"author": "AyyKamp",
@@ -28,7 +27,7 @@
 	},
 	"binary": {
 		"napi_versions": [
-			3
+			4
 		]
 	},
 	"devDependencies": {
