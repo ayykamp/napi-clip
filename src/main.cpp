@@ -94,9 +94,8 @@ Object get_image(const CallbackInfo& args) {
 	img_obj.Set(String::New(env, "spec"), spec_obj);
 
 	const size_t length = spec.width * spec.height; 
-	char **data = new char*;
-	*data = img.data();
-	ArrayBuffer array_buffer = ArrayBuffer::New(env, data, length * (spec.bits_per_pixel / 8),
+	char *data = img.data();
+	ArrayBuffer array_buffer = ArrayBuffer::New(env, &data, length * (spec.bits_per_pixel / 8),
 		[](Env /*env*/, void* finalizeData) {
       delete[] static_cast<uint32_t*>(finalizeData);
     });
