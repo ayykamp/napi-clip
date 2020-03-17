@@ -125,7 +125,7 @@ Object get_image(const CallbackInfo& args) {
   
 	ArrayBuffer array_buffer = ArrayBuffer::New(env, data_copy, byte_length,
 		[](Env env, void* finalizeData) {
-			delete[] finalizeData;
+			delete[] static_cast<uint32_t*>(finalizeData);
 		});
 	Uint32Array img_array = Uint32Array::New(env, element_length, array_buffer, 0);
 
