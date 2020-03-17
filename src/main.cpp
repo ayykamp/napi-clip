@@ -92,14 +92,42 @@ Object get_image(const CallbackInfo& args) {
 	spec_obj.Set(String::New(env, "alphaShift"), Number::New(env, spec.alpha_shift));
 
 	img_obj.Set(String::New(env, "spec"), spec_obj);
+	/* char *data = img.data();
+	const size_t length = spec.width * spec.height;
 
-	const size_t length = spec.width * spec.height; 
+	std::cout << "buffer" << '\n';
+	for (size_t i = 0; i < 4; i++)
+	{
+		std::cout << std::hex << static_cast<uint8_t>(data[i]) << '\n';
+	}
+	ArrayBuffer array_buf = ArrayBuffer::New(env, 4);
+	std::cout << "ARrayBuf" << '\n';
+	for (size_t i = 0; i < 4; i++)
+	{
+	  std::cout << "inside loop" << '\n';
+		array_buf[i] = data[i];
+	}
+	Uint32Array xddd = Uint32Array::New(env, 1, array_buf, 0);
+	std::cout << "ARrayBuf" << '\n';
+
+	std::cout << "Uint32" << '\n';
+	for (size_t i = 0; i < 4; i++)
+	{
+		std::cout << std::hex << xddd[i] << '\n';
+	} */
+	
+	const size_t element_length = spec.width * spec.height;
+	const size_t byte_length = element_length * (spec.bits_per_pixel / 8);
+
 	char *data = img.data();
-	ArrayBuffer array_buffer = ArrayBuffer::New(env, &data, length * (spec.bits_per_pixel / 8),
-		[](Env /*env*/, void* finalizeData) {
-      delete[] static_cast<uint32_t*>(finalizeData);
-    });
-	Uint32Array img_array = Uint32Array::New(env, length, array_buffer, 0);
+	char *data_copy = new char[byte_length];
+	std::copy(data, data + byte_length, data_copy);
+  
+	ArrayBuffer array_buffer = ArrayBuffer::New(env, data_copy, byte_length,
+		[](Env env, void* finalizeData) {
+			delete[] finalizeData;
+		});
+	Uint32Array img_array = Uint32Array::New(env, element_length, array_buffer, 0);
 
 	img_obj.Set(String::New(env, "data"), img_array);
 
