@@ -122,13 +122,16 @@ Object get_image(const CallbackInfo& args) {
 	char *data = img.data();
 	char *data_copy = new char[byte_length];
 	std::copy(data, data + byte_length, data_copy);
+	
   
 	ArrayBuffer array_buffer = ArrayBuffer::New(env, data_copy, byte_length,
-		[](Env env, void* finalizeData) {
+		[array_buffer](Env env, void* finalizeData) {
+			bool ye = array_buffer.IsEmpty();
+			std::cout << std::boolalpha << ye;
 			delete[] static_cast<uint32_t*>(finalizeData);
 		});
 	Uint32Array img_array = Uint32Array::New(env, element_length, array_buffer, 0);
-
+	
 	img_obj.Set(String::New(env, "data"), img_array);
 
 	return img_obj;
