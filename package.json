@@ -15,7 +15,8 @@
 	"scripts": {
 		"install": "prebuild-install --verbose -r napi || npm run prebuild",
 		"test": "jest",
-		"prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js"
+		"prebuild": "prebuild --all --runtime napi --verbose --backend cmake-js",
+		"debug": "rm -rf prebuilds && prebuild --all --runtime napi --verbose --backend cmake-js --debug"
 	},
 	"author": "AyyKamp",
 	"license": "ISC",
@@ -27,7 +28,7 @@
 	},
 	"binary": {
 		"napi_versions": [
-			4
+			3
 		]
 	},
 	"devDependencies": {
